@@ -44,7 +44,6 @@ function Png:write(pixels)
             self:writeBytes(header)
             self:crc32(header, 1, #header)
         end
-        assert(self.positionX < self.lineSize and self.deflateFilled < DEFLATE_MAX_BLOCK_SIZE);
 
         if (self.positionX == 0) then  -- Beginning of line - write filter method byte
             local b = {0}
@@ -60,22 +59,21 @@ function Png:write(pixels)
                 n = self.lineSize - self.positionX
             end
             if (count < n) then
-                n = count;
+                n = count
             end
-            assert(n > 0);
 
             self:writeBytes(pixels, pixelPointer, n)
 
             -- Update checksums
-            self:crc32(pixels, pixelPointer, n);
-            self:adler32(pixels, pixelPointer, n);
+            self:crc32(pixels, pixelPointer, n)
+            self:adler32(pixels, pixelPointer, n)
 
             -- Increment positions
-            count = count - n;
-            pixelPointer = pixelPointer + n;
-            self.positionX = self.positionX + n;
-            self.uncompRemain = self.uncompRemain - n;
-            self.deflateFilled = self.deflateFilled + n;
+            count = count - n
+            pixelPointer = pixelPointer + n
+            self.positionX = self.positionX + n
+            self.uncompRemain = self.uncompRemain - n
+            self.deflateFilled = self.deflateFilled + n
         end
 
         if (self.deflateFilled >= DEFLATE_MAX_BLOCK_SIZE) then
@@ -104,7 +102,9 @@ function Png:write(pixels)
     end
 end
 
+--[[ WE DON'T NEED NO STINKIN' CRC! (and it's slow) ]]--
 function Png:crc32(data, index, len)
+    --[[
     self.crc = bit_not(self.crc)
     for i=index,index+len-1 do
         local byte = data[i]
@@ -114,9 +114,11 @@ function Png:crc32(data, index, len)
         end
     end
     self.crc = bit_not(self.crc)
+    ]]--
 end
 
 function Png:adler32(data, index, len)
+    --[[
     local s1 = bit_and(self.adler, 0xFFFF)
     local s2 = bit_rshift(self.adler, 16)
     for i=index,index+len-1 do
@@ -124,6 +126,7 @@ function Png:adler32(data, index, len)
         s2 = (s2 + s1) % 65521
     end
     self.adler = bit_or(bit_lshift(s2, 16), s1)
+    ]]--
 end
 
 local function PNG_Make(width, height, colorMode)

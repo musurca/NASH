@@ -47,18 +47,20 @@ function NASH_Render(nash_obj, scale)
         nash_obj.valid = true
     end
 
-    local s_width = scale * nash_obj.width
-    local s_height = scale * nash_obj.height
-    local style = " width =\""..s_width.."\" height=\""..s_height.."\" "
+    local style = ""
+    if scale ~= 1 then
+        local s_width = scale * nash_obj.width
+        local s_height = scale * nash_obj.height
+        style = " width =\""..s_width.."\" height=\""..s_height.."\" "
+    end
 
     return "<img src=\"data:image/png;base64, "..nash_obj.cached_base64.."\""..style.."/>"
 end
 
 function NASH_Test()
-    local test = NASH_New(64, 64)
-    --NASH_Fill(test, {255, 0, 255, 255})
-    for i = 1, 64 do
-        local x, y = math.random(0, 63), math.random(0, 63)
+    local test = NASH_New(256, 256)
+    for i = 1, 256 do
+        local x, y = math.random(0, test.width-1), math.random(0, test.height-1)
         NASH_Plot(test, x, y, {
             math.random(0, 255),
             math.random(0, 255),
@@ -66,7 +68,7 @@ function NASH_Test()
             255
         })
     end
-    ScenEdit_SpecialMessage("playerside", NASH_Render(test, 4))
+    ScenEdit_SpecialMessage("playerside", NASH_Render(test))
 end
 
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
