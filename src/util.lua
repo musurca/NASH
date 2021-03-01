@@ -75,5 +75,9 @@ function Util_DumpFields(obj)
     end
 end
 
+function clip(x, a, b)
+    return math.max(a, math.min(x, b))
+end
+
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
 

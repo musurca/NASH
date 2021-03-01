@@ -1,18 +1,18 @@
 function RGBA(red, green, blue, alpha)
     alpha = alpha or 255
     return {
-        red,
-        green,
-        blue,
-        alpha
+        clip(math.floor(red), 0, 255),
+        clip(math.floor(green), 0, 255),
+        clip(math.floor(blue), 0, 255),
+        clip(math.floor(alpha), 0, 255)
     }
 end
 
 function RGB(red, green, blue)
     return {
-        red,
-        green,
-        blue,
+        clip(math.floor(red), 0, 255),
+        clip(math.floor(green), 0, 255),
+        clip(math.floor(blue), 0, 255),
         0xFF
     }
 end

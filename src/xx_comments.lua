@@ -1,9 +1,11 @@
 --[[
 ----------------------------------------------
 NASH v1.00 by Nicholas Musurca (nick.musurca@gmail.com)
-Licensed under GNU GPLv3. (https://www.gnu.org/licenses/gpl-3.0-standalone.html)
+Licensed under GNU GPLv3. 
+(https://www.gnu.org/licenses/gpl-3.0-standalone.html)
 
-MAKE SURE YOU READ THE INCLUDED MANUAL BEFORE DOING ANYTHING WITH THIS CODE!
+To install this code into your scenario, open the Lua Script Editor,
+paste this file into the box, and click Run.
 ----------------------------------------------
 ]]--
 
