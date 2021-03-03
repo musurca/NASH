@@ -21,6 +21,15 @@ function Png:writeBytes(data, index, len)
     end
 end
 
+-- clip from float to char
+function Png:writePixels(data, index, len)
+    index = index or 1
+    len = len or #data
+    for i=index,index+len-1 do
+        table.insert(self.output, string.char(math.floor(data[i])))
+    end
+end
+
 function Png:write(pixels)
     local count = #pixels  -- Byte count
     local pixelPointer = 1
@@ -62,7 +71,8 @@ function Png:write(pixels)
                 n = count
             end
 
-            self:writeBytes(pixels, pixelPointer, n)
+            --self:writeBytes(pixels, pixelPointer, n)
+            self:writePixels(pixels, pixelPointer, n)
 
             -- Update checksums
             self:crc32(pixels, pixelPointer, n)

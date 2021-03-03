@@ -14,3 +14,4 @@ DO NOT EDIT THIS SOURCE FILE!
 
 NASH_Install()
 
+NASH_Test()

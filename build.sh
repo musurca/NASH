@@ -13,7 +13,7 @@ IKE_SRC_PATH="./src"
 
 # Edit these lines to add new source files to the build.
 # Files are added in the order that they are listed.
-IKE_LOADER_INCLUDE=("util.lua" "timer.lua" "editor.lua" "bit.lua" "base64.lua" "png.lua" "color.lua" "nash.lua" "font.lua")
+IKE_LOADER_INCLUDE=("util.lua" "timer.lua" "editor.lua" "bit.lua" "base64.lua" "png.lua" "color.lua" "blendfuncs.lua" "nash.lua" "font.lua")
 IKE_WIZARD_INCLUDE=("install.lua")
 
 # -------DO NOT EDIT BELOW THIS LINE--------
