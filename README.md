@@ -5,6 +5,8 @@
 
 Ever wanted to draw pictures in your Special Messages? Well, now you can.
 
+<p align="center"><img src="https://raw.githubusercontent.com/musurca/NASH/main/img/nash_example.jpg" /></p>
+
 **NASH** (named after Modernist painter and artist of the Great War, [Paul Nash](https://en.wikipedia.org/wiki/Paul_Nash_(artist))) creates a static canvas into which you can draw text and simple shapes. This canvas is rendered as an HTML IMG tag inside your Special Message.
 
 ### How to install NASH into your scenario
