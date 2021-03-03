@@ -1,5 +1,4 @@
-# NASH v1.0
-API Reference
+# NASH v1.0 API Reference
 
 by Nicholas Musurca (nick.musurca@gmail.com)
 
