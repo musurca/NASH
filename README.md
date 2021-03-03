@@ -3,13 +3,13 @@
 
 Ever wanted to draw pictures in your Special Messages? Well, now you can.
 
-NASH (named after Modernist painter and artist of the Great War, [Paul Nash](https://en.wikipedia.org/wiki/Paul_Nash_(artist))) creates a static canvas into which you can draw text and simple shapes. This canvas is rendered as an HTML IMG tag inside your Special Message.
+**NASH** (named after Modernist painter and artist of the Great War, [Paul Nash](https://en.wikipedia.org/wiki/Paul_Nash_(artist))) creates a static canvas into which you can draw text and simple shapes. This canvas is rendered as an HTML IMG tag inside your Special Message.
 
-### How to install into your scenario
+### How to install **NASH** into your scenario
 
 1. Download the latest release and unzip it.
-2. Copy the contents of the file nash_min.lua, paste them into the Lua Script Editor, and click RUN.
-3. After a short pause, you should see the message, "NASH has been successfully installed!" This means that NASH has been installed persistently into your scenario, and you can now use it inside your scripts.
+2. Copy the contents of the file `nash_min.lua`, paste it into the **Lua Script Editor**, and click **RUN**.
+3. After a short pause, you should see the message, "NASH has been successfully installed!" This means that **NASH** has been installed persistently into your scenario, and you can now use it inside your scripts.
 
 ### Example usage
 
@@ -154,7 +154,7 @@ my_canvas:Circle(50, 50, 25, RGB(255, 255, 0) )
 Draws a filled circle at (`x0`, `y0`) with `radius` in the specified `color`.
 ```
 -- example: draw a filled yellow circle at (50, 50) with radius 25
-my_canvas:Circle(50, 50, 25, RGB(255, 255, 0) )
+my_canvas:CircleFill(50, 50, 25, RGB(255, 255, 0) )
 ```
 
 #### `NASH:SoftCircleFill(x0, y0, radius, color)`
@@ -175,7 +175,7 @@ my_canvas:OvalFill(50, 50, 50, 25, RGB(255, 255, 0) )
 Draws a soft filled oval with Gaussian falloff at (`x0`, `y0`) with x-dimension `radius_x` and y-dimension `radius_y` in the specified `color`.
 ```
 -- example: draw a soft filled yellow oval at (50, 50) with x-radius 50 and y-radius 25
-my_canvas:OvalFill(50, 50, 50, 25, RGB(255, 255, 0) )
+my_canvas:SoftOvalFill(50, 50, 50, 25, RGB(255, 255, 0) )
 ```
 
 #### `NASH:BlendMode(mode)`
@@ -221,11 +221,11 @@ ScenEdit_SpecialMessage("playerside", my_canvas:Render()..msg)
 
 ### How does this work?
 
-NASH makes use of the display capabilities of the HTML renderer built into *Command: Modern Operations*. When rendered, the canvas is converted to a PNG image, then encoded to Base64 and injected into an IMG tag.
+**NASH** makes use of the display capabilities of the HTML renderer built into *Command: Modern Operations*. When rendered, the canvas is converted to a PNG image, then encoded to Base64 and injected into an IMG tag.
 
 ### I'd like to contribute to NASH by adding new graphics functions. Where do I start?
 
-See instructions for building NASH from scratch below.
+See instructions for building **NASH** from scratch below.
 
 ### Build prerequisites
 * A Bash shell (on Windows 10, install the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/))
