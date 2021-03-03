@@ -5,10 +5,68 @@ Ever wanted to draw pictures in your Special Messages? Well, now you can.
 
 NASH (named after Modernist painter and artist of the Great War, [Paul Nash](https://en.wikipedia.org/wiki/Paul_Nash_(artist))) creates a static canvas into which you can draw text and simple shapes. This canvas is rendered as an HTML IMG tag inside your Special Message.
 
+### How to install into your scenario
+
+1. Download the latest release and unzip it.
+2. Copy the contents of the file nash_min.lua, paste them into the Lua Script Editor, and click RUN.
+3. After a short pause, you should see the message, "NASH has been successfully installed!" This means that NASH has been installed persistently into your scenario, and you can now use it inside your scripts.
+
+### Example usage
+
+```
+-- create a canvas at 512x255 resolution
+local canvas = NASH:New(512, 255)
+
+-- this is the default setting, but let's be explicit
+canvas:BlendMode(NASH.BLEND_NORMAL)
+
+-- draw a nice vaporwave gradient
+for i = 0, 255 do
+    canvas:Line(0, i, 511, i, RGB(i, i-255, 255))
+end
+
+-- test some basic shapes
+canvas:Line(0, 70, 511, 255, RGB(200, 200, 0))
+canvas:BoxFill(40, 150, 90, 255, RGB(0, 255, 255))
+canvas:Box(140, 150, 190, 255, RGB(0, 255, 255))
+canvas:OvalFill(40, 80, 60, 40, RGBA(255, 255, 255))
+
+-- blend by alpha
+canvas:BlendMode(NASH.BLEND_ALPHA)
+
+canvas:Circle(250, 60, 40, RGBA(255, 255, 255, 127))
+canvas:CircleFill(350, 60, 40, RGBA(255, 255, 255, 127))
+canvas:SoftCircleFill(450, 60, 80, RGBA(255, 255, 255, 127))
+canvas:TriangleFill(240, 150, 290, 255, 350, 150, RGBA(0, 255, 255, 127))
+canvas:Triangle(390, 150, 440, 255, 500, 150, RGBA(0, 255, 255, 127))
+canvas:SoftOvalFill(120, 80, 60, 40, RGBA(255, 255, 255, 127))
+
+-- go back to normal drawing
+canvas:BlendMode(NASH.BLEND_NORMAL)
+
+-- some random confetti
+for i = 1, 256 do
+    local x = math.random(0, canvas.width-1)
+    local y = math.random(0, canvas.height-1)
+    canvas:Point(x, y, RGB(
+        math.random(0, 255),
+        math.random(0, 255),
+        math.random(0, 255)
+    ))
+end
+
+-- text
+canvas:Print("Hello, CMO!", 30, 30, RGB(255, 255, 255))
+
+-- send to special message.
+-- note that the canvas can be combined with HTML tags and text.
+ScenEdit_SpecialMessage("playerside", canvas:Render().."<br/>This is a test of the NASH rendering system.")
+```
+
 ### API Definitions
 
 #### `NASH:New(width, height)`
-Creates a new canvas at `width` x `height` dimensions. The canvas is transparent by default, with all pixels set to `RGBA(0,0,0,0)`.
+Creates a new canvas at `width` x `height` dimensions. The canvas is transparent by default, with all pixels set to `RGBA(0,0,0,0)`. If you can, try to reuse the canvases you make.
 ```
 -- example: create a 640x480 canvas
 local my_canvas = NASH:New(640, 480)
@@ -153,8 +211,8 @@ Inverts all of the elements of the canvas colors.
 #### `NASH:InvertRGB()`
 Inverts the RGB elements of the canvas colors, but leaves the alpha element untouched.
 
-#### `NASH:Render()`
-Renders your canvas to an HTML IMG tag for use in a Special Message. Note that NASH caches the results of each render. Once you render a canvas once, it will be much faster to render it a second time if you haven't made any changes.
+#### `NASH:Render([scale])`
+Renders your canvas to an HTML IMG tag for use in a Special Message. If the optional argument `scale` is specified, the canvas will be stretched or squeezed by the scale factor. (If not specified, `scale` is set to `1`.) Note that NASH caches the results of each render. Once you render a canvas once, it will be much faster to render it a second time if you haven't made any changes.
 ```
 -- example: render our canvas to a Special Message
 local msg = "<br/>This is a test of the NASH rendering system."
@@ -164,6 +222,10 @@ ScenEdit_SpecialMessage("playerside", my_canvas:Render()..msg)
 ### How does this work?
 
 NASH makes use of the display capabilities of the HTML renderer built into *Command: Modern Operations*. When rendered, the canvas is converted to a PNG image, then encoded to Base64 and injected into an IMG tag.
+
+### I'd like to contribute to NASH by adding new graphics functions. Where do I start?
+
+See instructions for building NASH from scratch below.
 
 ### Build prerequisites
 * A Bash shell (on Windows 10, install the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/))
@@ -192,4 +254,4 @@ The compiled, minified Lua code will be placed in `release/nash_min.lua`. This i
 ./build.sh debug
 ```
 
-This will produce compiled but unminified Lua code in `debug/nash_debug.lua`. This is mostly useful to observe how the final released Lua is composed from the source files.
+This will produce compiled but unminified Lua code in `debug/nash_debug.lua`. This is mostly useful in development for debugging.
