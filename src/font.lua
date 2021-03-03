@@ -101,8 +101,23 @@ FONT_6x8 = {
  0x29,0x40,0x00,0x00,0x00,0x00,	-- ~
  0x10,0xE6,0xD1,0x45,0xF0,0x00} --
 
- function NASH:Print(str, x, y, c)
+function NASH:TextWidth(str)
+	return FONT_WIDTH*#str
+end
+
+function NASH:TextHeight()
+	return FONT_HEIGHT
+end
+
+function NASH:Print(str, x, y, c, align)
 	if x >= self.width or y >= self.height then return end
+
+	align = align or NASH.ALIGN_LEFT
+	if align == NASH.ALIGN_CENTER then
+		x = x - self:TextWidth(str) / 2
+	elseif align == NASH.ALIGN_RIGHT then
+		x = x - self:TextWidth(str)
+	end
 
 	local startIndex = 0
 	local len = #str

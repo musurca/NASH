@@ -1,10 +1,14 @@
 NASH = {
+    VERSION        = "1.0",
     BLEND_NORMAL   = 1,
     BLEND_ADD      = 2,
     BLEND_SUBTRACT = 3,
     BLEND_MULTIPLY = 4,
     BLEND_SCREEN   = 5,
-    BLEND_ALPHA    = 6
+    BLEND_ALPHA    = 6,
+    ALIGN_LEFT     = 1,
+    ALIGN_CENTER   = 2,
+    ALIGN_RIGHT    = 3
 }
 NASH.__index = NASH
 
@@ -389,6 +393,8 @@ function NASH:SoftOvalFill(x0, y0, radius_x, radius_y, color)
     end
 end
 
+__NASH_COLLECTION = 0
+
 function NASH:Render(scale)
     scale = scale or 1
 
@@ -406,6 +412,12 @@ function NASH:Render(scale)
         self.valid = true
     end
 
+    __NASH_COLLECTION = ( __NASH_COLLECTION + 1 ) % 2
+    if __NASH_COLLECTION == 0 then
+        -- do garbage collection every other render
+        collectgarbage("collect")
+    end
+
     local style = ""
     if scale ~= 1 then
         local s_width = scale * self.width
@@ -417,53 +429,35 @@ function NASH:Render(scale)
 end
 
 function NASH_Test()
-    -- create a canvas at 512x255 resolution
-    local canvas = NASH:New(512, 255)
+    local canvas = NASH:New(512, 400)
 
-    -- this is the default setting, but let's be explicit
-    canvas:BlendMode(NASH.BLEND_NORMAL)
-
-    -- draw a nice vaporwave gradient
-    for i = 0, 255 do
-        canvas:Line(0, i, 511, i, RGB(i, i-255, 255))
-    end
-
-    -- test some basic shapes
-    canvas:Line(0, 70, 511, 255, RGB(200, 200, 0))
-    canvas:BoxFill(40, 150, 90, 255, RGB(0, 255, 255))
-    canvas:Box(140, 150, 190, 255, RGB(0, 255, 255))
-    canvas:OvalFill(40, 80, 60, 40, RGBA(255, 255, 255))
-
-    -- blend by alpha
-    canvas:BlendMode(NASH.BLEND_ALPHA)
-
-    canvas:Circle(250, 60, 40, RGBA(255, 255, 255, 127))
-    canvas:CircleFill(350, 60, 40, RGBA(255, 255, 255, 127))
-    canvas:SoftCircleFill(450, 60, 80, RGBA(255, 255, 255, 127))
-    canvas:TriangleFill(240, 150, 290, 255, 350, 150, RGBA(0, 255, 255, 127))
-    canvas:Triangle(390, 150, 440, 255, 500, 150, RGBA(0, 255, 255, 127))
-    canvas:SoftOvalFill(120, 80, 60, 40, RGBA(255, 255, 255, 127))
+    local color_black = RGB(0, 0, 0)
+    local color_white = RGB(255, 255, 255)
     
-    -- go back to normal drawing
-    canvas:BlendMode(NASH.BLEND_NORMAL)
-
-    -- some random confetti
-    for i = 1, 256 do
-        local x = math.random(0, canvas.width-1)
-        local y = math.random(0, canvas.height-1)
-        canvas:Point(x, y, RGB(
-            math.random(0, 255),
-            math.random(0, 255),
-            math.random(0, 255)
-        ))
+    --gradient
+    for i=0, canvas.width-1 do
+        local intens = 255*i/(canvas.width-1)
+        local color = RGB(intens, intens-canvas.width, 255)
+        canvas:Line(i, 0, i, canvas.height-1, color)
     end
+    --soft bump
+    canvas:BlendMode(NASH.BLEND_ALPHA)
+    canvas:SoftCircleFill(256, 200, 200, RGBA(255, 255, 255, 127) )
     
     -- text
-    canvas:Print("Hello, CMO Forum!", 30, 30, RGB(255, 255, 255))
-
-    -- send to special message.
-    -- note that the canvas can be combined with HTML tags and text.
-    ScenEdit_SpecialMessage("playerside", canvas:Render().."<br/>This is a test of the NASH rendering system.")
+    canvas:BlendMode(NASH.BLEND_NORMAL)
+    local text = "NASH v"..NASH.VERSION
+    local text_w, text_h = canvas:TextWidth(text)/2, canvas:TextHeight()
+    canvas:BoxFill(256-text_w, 198, 256+text_w, 200+text_h, color_black)
+    canvas:Print(text, 256, 200, color_white, NASH.ALIGN_CENTER)
+    
+    text = "The graphics library for COMMAND: MODERN OPERATIONS"
+    text_w = canvas:TextWidth(text)/2
+    canvas:BoxFill(254-text_w, 348, 258+text_w, 350+text_h, color_black)
+    canvas:Print(text, 256, 350, color_white, NASH.ALIGN_CENTER )
+    
+    --render it to a special message
+    ScenEdit_SpecialMessage("playerside", canvas:Render() )
 end
 
 --[[!! LEAVE TWO CARRIAGE RETURNS AFTER SOURCE FILE !!]]--
