@@ -1,5 +1,5 @@
 NASH = {
-    VERSION        = "1.0",
+    VERSION        = "1.01",
     BLEND_NORMAL   = 1,
     BLEND_ADD      = 2,
     BLEND_SUBTRACT = 3,
@@ -319,7 +319,7 @@ function NASH:SoftCircleFill(x0, y0, radius, color)
     local r = math.floor(radius)
     x0, y0 = math.floor(x0), math.floor(y0)
 
-    local scalar
+    local scalar, adj_color
     local r_sqrd = r*r
     for i=r,0,-1 do
         local len = math.floor(math.sqrt(r_sqrd - i*i))
@@ -327,23 +327,26 @@ function NASH:SoftCircleFill(x0, y0, radius, color)
             for j=1,len do
                 scalar = GaussianApprox(math.sqrt(i*i + j*j)/r)
                 if scalar > 0 then
-                    self:Plot(x0+j, y0-i, Color_Scale(color, scalar))
-                    self:Plot(x0-j, y0-i, Color_Scale(color, scalar))
-                    self:Plot(x0+j, y0+i, Color_Scale(color, scalar))
-                    self:Plot(x0-j, y0+i, Color_Scale(color, scalar))
+                    adj_color = Color_Scale(color, scalar)
+                    self:Plot(x0+j, y0-i, adj_color)
+                    self:Plot(x0-j, y0-i, adj_color)
+                    self:Plot(x0+j, y0+i, adj_color)
+                    self:Plot(x0-j, y0+i, adj_color)
                 end
             end
             scalar = GaussianApprox(math.sqrt(i*i)/r)
             if scalar > 0 then
-                self:Plot(x0, y0+i, Color_Scale(color, scalar))
-                self:Plot(x0, y0-i, Color_Scale(color, scalar))
+                adj_color = Color_Scale(color, scalar)
+                self:Plot(x0, y0+i, adj_color)
+                self:Plot(x0, y0-i, adj_color)
             end
         else
             for j=1,len do
                 scalar = GaussianApprox(math.sqrt(i*i + j*j)/r)
                 if scalar > 0 then
-                    self:Plot(x0+j, y0, Color_Scale(color, scalar))
-                    self:Plot(x0-j, y0, Color_Scale(color, scalar))
+                    adj_color = Color_Scale(color, scalar)
+                    self:Plot(x0+j, y0, adj_color)
+                    self:Plot(x0-j, y0, adj_color)
                 end
             end
             scalar = GaussianApprox(math.sqrt(i*i)/r)
@@ -358,7 +361,7 @@ function NASH:SoftOvalFill(x0, y0, radius_x, radius_y, color)
     local rx, ry = math.floor(radius_x), math.floor(radius_y)
     x0, y0 = math.floor(x0), math.floor(y0)
 
-    local scalar
+    local scalar, adj_color
     local rx_sqrd, ry_sqrd = rx*rx, ry*ry
     for i=ry,0,-1 do
         local len = math.floor(math.sqrt(rx_sqrd*(1 - i*i/ry_sqrd)))
@@ -366,23 +369,26 @@ function NASH:SoftOvalFill(x0, y0, radius_x, radius_y, color)
             for j=1,len do
                 scalar = GaussianApprox(i*i/ry_sqrd + j*j/rx_sqrd)
                 if scalar > 0 then
-                    self:Plot(x0+j, y0-i, Color_Scale(color, scalar))
-                    self:Plot(x0-j, y0-i, Color_Scale(color, scalar))
-                    self:Plot(x0+j, y0+i, Color_Scale(color, scalar))
-                    self:Plot(x0-j, y0+i, Color_Scale(color, scalar))
+                    adj_color = Color_Scale(color, scalar)
+                    self:Plot(x0+j, y0-i, adj_color)
+                    self:Plot(x0-j, y0-i, adj_color)
+                    self:Plot(x0+j, y0+i, adj_color)
+                    self:Plot(x0-j, y0+i, adj_color)
                 end
             end
             scalar =  GaussianApprox(i*i/ry_sqrd)
             if scalar > 0 then
-                self:Plot(x0, y0+i, Color_Scale(color, scalar))
-                self:Plot(x0, y0-i, Color_Scale(color, scalar))
+                adj_color = Color_Scale(color, scalar)
+                self:Plot(x0, y0+i, adj_color)
+                self:Plot(x0, y0-i, adj_color)
             end
         else
             for j=1,len do
                 scalar = GaussianApprox(i*i/ry_sqrd + j*j/rx_sqrd)
                 if scalar > 0 then
-                    self:Plot(x0+j, y0, Color_Scale(color, scalar))
-                    self:Plot(x0-j, y0, Color_Scale(color, scalar))
+                    adj_color = Color_Scale(color, scalar)
+                    self:Plot(x0+j, y0, adj_color)
+                    self:Plot(x0-j, y0, adj_color)
                 end
             end
             scalar = GaussianApprox(i*i/ry_sqrd)
@@ -437,7 +443,7 @@ function NASH_Test()
     --gradient
     for i=0, canvas.width-1 do
         local intens = 255*i/(canvas.width-1)
-        local color = RGB(intens, intens-canvas.width, 255)
+        local color = RGB(intens, 0, 255)
         canvas:Line(i, 0, i, canvas.height-1, color)
     end
     --soft bump

@@ -1,4 +1,5 @@
 --[[
+Lua base64 encoder/decoder
 https://github.com/iskolbin/lbase64
 --]]
 

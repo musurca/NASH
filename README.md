@@ -30,7 +30,7 @@ local color_white = RGB(255, 255, 255)
 --render a nice horizontal gradient
 for i=0, canvas.width-1 do
     local intens = 255*i/(canvas.width-1)
-    local color = RGB(intens, intens-canvas.width, 255)
+    local color = RGB(intens, 0, 255)
     canvas:Line(i, 0, i, canvas.height-1, color)
 end
 --put a soft bump in the center
@@ -93,3 +93,10 @@ The compiled, minified Lua code will be placed in `release/nash_min.lua`. This i
 ```
 
 This will produce compiled but unminified Lua code in `debug/nash_debug.lua`. This is mostly useful in development for debugging.
+
+### Acknowledgements
+
+* [Lua base64 encoder/decoder](https://github.com/iskolbin/lbase64
+)
+* [lua-pngencoder](https://github.com/wyozi/lua-pngencoder)
+* [@p01](https://twitter.com/p01) (efficient triangle fill code)
