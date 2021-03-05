@@ -96,6 +96,7 @@ This will produce compiled but unminified Lua code in `debug/nash_debug.lua`. Th
 
 ### Acknowledgements
 
+* [LuaBit](https://github.com/alexsilva/luabit-legacy)
 * [Lua base64 encoder/decoder](https://github.com/iskolbin/lbase64
 )
 * [lua-pngencoder](https://github.com/wyozi/lua-pngencoder)
