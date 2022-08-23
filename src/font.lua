@@ -110,6 +110,7 @@ function NASH:TextHeight()
 end
 
 function NASH:Print(str, x, y, c, align)
+	x, y = math.floor(x), math.floor(y)
 	align = align or NASH.ALIGN_LEFT
 	if align == NASH.ALIGN_CENTER then
 		x = x - self:TextWidth(str) / 2
