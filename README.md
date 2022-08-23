@@ -66,16 +66,26 @@ A full API reference of all available functions can be found [here](https://gith
 See instructions for building **NASH** from scratch below.
 
 ### Build prerequisites
-* A Bash shell (on Windows 10, install the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/))
+* A Bash shell (on Windows 10, install the [WSL](https://docs.microsoft.com/en-us/windows/wsl/install))
+* [NPM](https://www.npmjs.com/)
 * [luamin](https://github.com/mathiasbynens/luamin)
 * [Python 3](https://www.python.org/downloads/)
 
 #### Quick prerequisite install instructions on Windows 10
 
-Assuming you've installed the [WSL](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) and Ubuntu, run the following commands from the shell:
+1. Install the WSL
+
+Open a new PowerShell window with Administrator privileges, and run the following command:
 ```
-sudo apt-get install npm
-sudo npm install -g luamin
+wsl --install
+```
+When complete, restart your computer.
+
+2. Install the prerequisites
+
+From the Ubuntu Bash shell, run the following command:
+```
+sudo apt update && sudo apt-get install python3 npm && sudo npm install -g luamin
 ```
 
 ### How to compile

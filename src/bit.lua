@@ -1,12 +1,12 @@
 
-local function check_int(n)
+function check_int(n)
     -- checking not float
     if(n - math.floor(n) > 0) then
         error("trying to use bitwise operation on non-integer!")
     end
 end
 
-local function tbl_to_number(tbl)
+function tbl_to_number(tbl)
     local n = #tbl
 
     local rslt = 0
@@ -19,7 +19,7 @@ local function tbl_to_number(tbl)
     return rslt
 end
 
-local function expand(tbl_m, tbl_n)
+function expand(tbl_m, tbl_n)
     local big = {}
     local small = {}
     if(#tbl_m > #tbl_n) then
@@ -35,9 +35,7 @@ local function expand(tbl_m, tbl_n)
     end
 end
 
-local to_bits = function () end
-
-local function bit_not(n)
+function bit_not(n)
     local tbl = to_bits(n)
     local size = math.max(#tbl, 32)
     for i = 1, size do
@@ -50,8 +48,7 @@ local function bit_not(n)
     return tbl_to_number(tbl)
 end
 
-
-to_bits = function (n)
+function to_bits(n)
     check_int(n)
     if(n < 0) then
         -- negative
@@ -75,7 +72,7 @@ to_bits = function (n)
 end
 
 
-local function bit_or(m, n)
+function bit_or(m, n)
     local tbl_m = to_bits(m)
     local tbl_n = to_bits(n)
     expand(tbl_m, tbl_n)
@@ -93,7 +90,7 @@ local function bit_or(m, n)
     return tbl_to_number(tbl)
 end
 
-local function bit_and(m, n)
+function bit_and(m, n)
     local tbl_m = to_bits(m)
     local tbl_n = to_bits(n)
     expand(tbl_m, tbl_n) 
@@ -111,7 +108,7 @@ local function bit_and(m, n)
     return tbl_to_number(tbl)
 end
 
-local function bit_xor(m, n)
+function bit_xor(m, n)
     local tbl_m = to_bits(m)
     local tbl_n = to_bits(n)
     expand(tbl_m, tbl_n) 
@@ -130,7 +127,7 @@ local function bit_xor(m, n)
     return tbl_to_number(tbl)
 end
 
-local function bit_rshift(n, bits)
+function bit_rshift(n, bits)
     check_int(n)
 
     local high_bit = 0
@@ -147,7 +144,7 @@ local function bit_rshift(n, bits)
     return math.floor(n)
 end
 
-local function bit_logic_rshift(n, bits)
+function bit_logic_rshift(n, bits)
     check_int(n)
     if(n < 0) then
         -- negative
@@ -159,7 +156,7 @@ local function bit_logic_rshift(n, bits)
     return math.floor(n)
 end
 
-local function bit_lshift(n, bits)
+function bit_lshift(n, bits)
     check_int(n)
     if(n < 0) then
         -- negative
@@ -172,7 +169,7 @@ local function bit_lshift(n, bits)
     return bit_and(n, 4294967295) -- 0xFFFFFFFF
 end
 
-local function bit_xor2(m, n)
+function bit_xor2(m, n)
     local rhs = bit_or(bit_not(m), bit_not(n))
     local lhs = bit_or(m, n)
     local rslt = bit_and(lhs, rhs)
