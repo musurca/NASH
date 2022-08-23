@@ -1,5 +1,5 @@
 NASH = {
-    VERSION        = "1.01",
+    VERSION        = "1.02",
     BLEND_NORMAL   = 1,
     BLEND_ADD      = 2,
     BLEND_SUBTRACT = 3,
